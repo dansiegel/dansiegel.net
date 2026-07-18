@@ -5,69 +5,212 @@ if (import.meta.env.PROD && !siteKey) {
 }
 ---
 
-<form class="contact-form" action="/api/contact" method="post" data-contact-form>
-  <div class="form-field">
-    <label for="name">Name</label>
-    <input id="name" name="name" type="text" autocomplete="name" required maxlength="100" />
-  </div>
-  <div class="form-field">
-    <label for="email">Email</label>
-    <input id="email" name="email" type="email" autocomplete="email" required maxlength="254" />
-  </div>
-  <div class="form-field">
-    <label for="subject">What would you like to discuss?</label>
-    <select id="subject" name="subject" required>
-      <option value="">Choose a topic</option>
-      <option>Consulting</option>
-      <option value="Roatán team retreat">Roatán developer team retreat</option>
-      <option>Speaking</option>
-      <option>Open source</option>
-      <option>Other</option>
-    </select>
-  </div>
-  <div class="form-field">
-    <label for="message">Message</label>
-    <textarea id="message" name="message" rows="7" required minlength="20" maxlength="5000"></textarea>
-    <p class="field-help">Please include enough context for a useful reply.</p>
-  </div>
-  <div class="honeypot" aria-hidden="true">
-    <label for="company_website">Company website</label>
-    <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
-  </div>
-  <input type="hidden" name="startedAt" value={Date.now()} />
-  {siteKey ? <div class="cf-turnstile" data-sitekey={siteKey} data-action="contact" data-theme="auto"></div> : <p class="form-notice">Spam protection is unavailable in this development environment.</p>}
-  <div class="form-submit">
-    <button class="button primary" type="submit">Send message</button>
-    <p class="form-status" data-form-status role="status" aria-live="polite"></p>
-  </div>
-</form>
+<div class="contact-form-shell">
+  <form class="contact-form" action="/api/contact" method="post" data-contact-form>
+    <div class="form-field">
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text" autocomplete="name" required maxlength="100" />
+    </div>
+    <div class="form-field">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" autocomplete="email" required maxlength="254" />
+    </div>
+    <div class="form-field">
+      <label for="subject">What would you like to discuss?</label>
+      <select id="subject" name="subject" required>
+        <option value="">Choose a topic</option>
+        <option>Consulting</option>
+        <option value="Roatán team retreat">Roatán developer team retreat</option>
+        <option>Speaking</option>
+        <option>Open source</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="message">Message</label>
+      <textarea id="message" name="message" rows="7" required minlength="20" maxlength="5000"></textarea>
+      <p class="field-help">Please include enough context for a useful reply.</p>
+    </div>
+    <div class="honeypot" aria-hidden="true">
+      <label for="company_website">Company website</label>
+      <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+    <input type="hidden" name="startedAt" value="" data-started-at />
+    {siteKey ? <div class="cf-turnstile" data-sitekey={siteKey} data-action="contact" data-theme="auto"></div> : <p class="form-notice">Spam protection is unavailable in this development environment.</p>}
+    <div class="form-submit">
+      <button class="button primary" type="submit">Send message</button>
+    </div>
+  </form>
+
+  <section class="form-result" data-form-result data-state="idle" aria-live="polite" tabindex="-1" hidden>
+    <div class="form-result-art" aria-hidden="true">
+      <svg viewBox="0 0 560 330" role="presentation">
+        <rect class="result-art-sky" x="8" y="8" width="544" height="314" rx="28"></rect>
+        <circle class="result-art-sun" cx="458" cy="73" r="34"></circle>
+        <path class="result-art-wave-back" d="M8 217c69-42 124-31 181 2 63 37 118 44 186 4 60-35 112-34 177 3v96H8z"></path>
+        <path class="result-art-wave-front" d="M8 260c69-34 129-30 191 6 68 39 127 38 194 0 54-31 101-31 159-2v58H8z"></path>
+        <g class="result-art-transit">
+          <path class="result-art-route" d="M72 194c81-87 163-105 258-71 41 15 71 12 99-8"></path>
+          <g class="result-art-mail">
+            <path class="result-art-shadow" d="M239 226c57 0 103 10 103 23s-46 23-103 23-104-10-104-23 47-23 104-23z"></path>
+            <path class="result-art-envelope" d="M157 115h171c12 0 21 9 21 21v100c0 12-9 21-21 21H157c-12 0-21-9-21-21V136c0-12 9-21 21-21z"></path>
+            <path class="result-art-fold" d="m145 130 97 76 98-76M145 242l68-61m127 61-67-61"></path>
+            <circle class="result-art-check" cx="337" cy="119" r="31"></circle>
+            <path class="result-art-checkmark" d="m323 119 9 9 18-20"></path>
+          </g>
+          <circle class="result-art-bubble bubble-one" cx="95" cy="252" r="9"></circle>
+          <circle class="result-art-bubble bubble-two" cx="119" cy="225" r="5"></circle>
+          <circle class="result-art-bubble bubble-three" cx="424" cy="257" r="7"></circle>
+        </g>
+        <g class="result-art-error">
+          <path class="result-art-shadow" d="M280 238c61 0 111 11 111 25s-50 25-111 25-111-11-111-25 50-25 111-25z"></path>
+          <path class="result-art-envelope" d="M196 112h168c12 0 21 9 21 21v101c0 12-9 21-21 21H196c-12 0-21-9-21-21V133c0-12 9-21 21-21z"></path>
+          <path class="result-art-fold" d="m184 127 96 76 96-76M184 241l67-60m125 60-66-60"></path>
+          <circle class="result-art-alert" cx="375" cy="115" r="31"></circle>
+          <path class="result-art-alertmark" d="M375 99v20m0 10h.1"></path>
+          <path class="result-art-route result-art-route-broken" d="M74 190c50-52 101-79 153-80"></path>
+        </g>
+      </svg>
+    </div>
+    <div class="form-result-copy">
+      <p class="form-result-kicker" data-result-kicker></p>
+      <h2 data-result-title></h2>
+      <p class="form-result-message" data-result-message></p>
+      <p class="form-result-note" data-result-note hidden></p>
+      <div class="form-result-actions">
+        <button class="button primary" type="button" data-result-retry hidden>Review and try again</button>
+        <button class="button secondary" type="button" data-result-new hidden>Send another message</button>
+      </div>
+    </div>
+  </section>
+</div>
 
 {siteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
 <script>
   const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
-  const status = document.querySelector<HTMLElement>("[data-form-status]");
-  const topic = new URLSearchParams(window.location.search).get("topic");
+  const resultCard = document.querySelector<HTMLElement>("[data-form-result]");
+  const resultKicker = resultCard?.querySelector<HTMLElement>("[data-result-kicker]");
+  const resultTitle = resultCard?.querySelector<HTMLElement>("[data-result-title]");
+  const resultMessage = resultCard?.querySelector<HTMLElement>("[data-result-message]");
+  const resultNote = resultCard?.querySelector<HTMLElement>("[data-result-note]");
+  const retryButton = resultCard?.querySelector<HTMLButtonElement>("[data-result-retry]");
+  const newMessageButton = resultCard?.querySelector<HTMLButtonElement>("[data-result-new]");
+  const submitButton = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+  const startedAt = form?.querySelector<HTMLInputElement>("[data-started-at]");
   const retreatOption = form?.querySelector('#subject option[value="Roatán team retreat"]');
-  if (topic === "roatan-team-retreat") retreatOption?.setAttribute("selected", "selected");
+  const topic = new URLSearchParams(window.location.search).get("topic");
+  const turnstile = () => (window as Window & { turnstile?: { reset: () => void } }).turnstile;
+
+  const setStartedAt = () => {
+    if (startedAt) startedAt.value = Date.now().toString();
+  };
+
+  const selectRequestedTopic = () => {
+    if (topic === "roatan-team-retreat") retreatOption?.setAttribute("selected", "selected");
+  };
+
+  type ResultState = "sending" | "success" | "error";
+  const content: Record<ResultState, { kicker: string; title: string; message: string; note?: string }> = {
+    sending: {
+      kicker: "Secure delivery in progress",
+      title: "Sending your message…",
+      message: "Keep this page open for a moment while the message makes its way through.",
+    },
+    success: {
+      kicker: "Message sent",
+      title: "Your message is on its way.",
+      message: "Thanks for reaching out. I have the context you shared and will give it a thoughtful read.",
+      note: "Delivery was confirmed. There is no need to send it again.",
+    },
+    error: {
+      kicker: "Delivery problem",
+      title: "Your message was not sent.",
+      message: "The delivery service did not confirm your message.",
+      note: "Nothing you entered was cleared. Your name, email, topic, and message are still in the form.",
+    },
+  };
+
+  const showResult = (state: ResultState, message?: string) => {
+    if (!resultCard || !resultKicker || !resultTitle || !resultMessage || !resultNote || !retryButton || !newMessageButton) return;
+    const stateContent = content[state];
+    resultCard.hidden = false;
+    resultCard.dataset.state = state;
+    resultCard.setAttribute("role", state === "error" ? "alert" : "status");
+    resultKicker.textContent = stateContent.kicker;
+    resultTitle.textContent = stateContent.title;
+    resultMessage.textContent = message ?? stateContent.message;
+    resultNote.textContent = stateContent.note ?? "";
+    resultNote.hidden = !stateContent.note;
+    retryButton.hidden = state !== "error";
+    newMessageButton.hidden = state !== "success";
+  };
+
+  const focusResult = () => {
+    if (!resultCard) return;
+    requestAnimationFrame(() => {
+      resultCard.focus({ preventScroll: true });
+      resultCard.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  };
+
+  setStartedAt();
+  selectRequestedTopic();
+
   form?.addEventListener("submit", async (event) => {
     event.preventDefault();
-    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-    if (!button || !status) return;
-    button.disabled = true;
-    button.textContent = "Sending...";
-    status.textContent = "";
+    if (!submitButton || !resultCard || !form.reportValidity()) return;
+
+    const formData = new FormData(form);
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending…";
+    form.setAttribute("aria-busy", "true");
+    showResult("sending");
+
+    let delivered = false;
     try {
-      const response = await fetch(form.action, { method: "POST", body: new FormData(form) });
-      const result = await response.json() as { ok?: boolean; error?: string };
-      if (!response.ok) throw new Error(result.error ?? "Your message could not be sent.");
-      form.reset();
-      status.textContent = "Thanks. Your message is on its way.";
+      const response = await fetch(form.action, { method: "POST", body: formData });
+      let payload: { ok?: boolean; error?: string } = {};
+      try {
+        payload = await response.json() as { ok?: boolean; error?: string };
+      } catch {
+        // The fallback below handles non-JSON network and platform responses.
+      }
+      if (!response.ok || payload.ok !== true) {
+        throw new Error(payload.error ?? "The server could not confirm delivery. Please try again.");
+      }
+
+      delivered = true;
+      form.hidden = true;
+      showResult("success");
+      focusResult();
     } catch (error) {
-      status.textContent = error instanceof Error ? error.message : "Your message could not be sent.";
+      const message = error instanceof Error ? error.message : "The message could not be delivered. Please try again.";
+      showResult("error", message);
+      turnstile()?.reset();
+      focusResult();
     } finally {
-      (window as Window & { turnstile?: { reset: () => void } }).turnstile?.reset();
-      button.disabled = false;
-      button.textContent = "Send message";
+      form.removeAttribute("aria-busy");
+      submitButton.disabled = false;
+      submitButton.textContent = "Send message";
+      if (!delivered) setStartedAt();
     }
+  });
+
+  retryButton?.addEventListener("click", () => {
+    if (!form || !resultCard || !submitButton) return;
+    resultCard.hidden = true;
+    form.scrollIntoView({ behavior: "smooth", block: "start" });
+    submitButton.focus({ preventScroll: true });
+  });
+
+  newMessageButton?.addEventListener("click", () => {
+    if (!form || !resultCard) return;
+    form.reset();
+    setStartedAt();
+    selectRequestedTopic();
+    turnstile()?.reset();
+    resultCard.hidden = true;
+    form.hidden = false;
+    requestAnimationFrame(() => form.querySelector<HTMLInputElement>("#name")?.focus());
   });
 </script>
