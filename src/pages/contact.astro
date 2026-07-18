@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ContactForm from "../components/ContactForm.astro";
-import { site } from "../config/site";
 ---
 
 <BaseLayout title="Contact Dan Siegel" description="Contact Dan Siegel about consulting, speaking, open-source work, or software architecture.">
@@ -16,7 +15,7 @@ import { site } from "../config/site";
     <aside class="contact-aside">
       <h2>Good reasons to write</h2>
       <p>Software architecture, project rescue, developer training, speaking, a <a href="/team-retreats/">Roatán developer retreat</a>, or a thoughtful open-source question.</p>
-      <p>You can also email <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+      <p>Use the form to share enough context for a useful reply.</p>
     </aside>
     <ContactForm />
   </section>

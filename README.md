@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-Copy `.env.example` to `.env` when testing integrations locally. The contact form deliberately reports that delivery is not configured unless a Resend key is present.
+Copy `.env.example` to `.env` when testing integrations locally. Production builds require a Turnstile site key, and the contact endpoint reports that delivery is not configured unless its Postmark and recipient secrets are present.
 
 Run the complete production check before publishing:
 
@@ -46,7 +46,7 @@ The import scripts are maintenance tools, not required during a normal Cloudflar
 
 ## Cloudflare Pages deployment
 
-GitHub Actions validates every pull request. Pushes to `main` run the same quality suite and deploy `dist` plus the Pages Functions in `functions` to the `dansiegel-net` Cloudflare Pages project. The repository needs these GitHub Actions secrets:
+GitHub Actions validates every pull request. Pushes to `master` run the same quality suite and deploy `dist` plus the Pages Functions in `functions` to the `dansiegel-net` Cloudflare Pages project. The repository needs these GitHub Actions secrets:
 
 - `CLOUDFLARE_API_TOKEN`: a token with `Account > Cloudflare Pages > Edit`
 - `CLOUDFLARE_ACCOUNT_ID`: the Cloudflare account that owns `dansiegel.net`
@@ -60,15 +60,15 @@ The contact form additionally needs these build variables:
 | `PUBLIC_SITE_URL` | `https://dansiegel.net` |
 | `PUBLIC_SITE_ENV` | `production` |
 | `PUBLIC_TURNSTILE_SITE_KEY` | The Turnstile widget site key |
-| `CONTACT_FROM_EMAIL` | A sender on a Resend-verified domain |
-| `CONTACT_TO_EMAIL` | `dsiegel@avantipoint.com` |
+| `CONTACT_FROM_EMAIL` | A sender on a Postmark-verified domain |
 
-Add these as encrypted secrets:
+Add these as encrypted Cloudflare Pages secrets:
 
 - `TURNSTILE_SECRET_KEY`
-- `RESEND_API_KEY`
+- `POSTMARK`
+- `CONTACT_TO_EMAIL`
 
-Create a Turnstile widget restricted to `dansiegel.net` and `www.dansiegel.net`. In Resend, verify `dansiegel.net` or another sending domain and make `CONTACT_FROM_EMAIL` match that verified domain.
+Set the public Turnstile site key as the GitHub Actions repository variable `PUBLIC_TURNSTILE_SITE_KEY`. Restrict the widget to `dansiegel.net`, `www.dansiegel.net`, and the stable Pages hostname used before DNS cutover. In Postmark, verify `dansiegel.net` or another sending domain and make `CONTACT_FROM_EMAIL` match that verified domain.
 
 For stronger rate limiting, create a Workers KV namespace and bind it to the Pages project as `CONTACT_RATE_LIMIT`. The form already limits a source IP to five accepted attempts per hour whenever this binding exists.
 

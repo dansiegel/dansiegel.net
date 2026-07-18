@@ -1,14 +1,24 @@
 interface Env {
   PUBLIC_SITE_ENV?: string;
   TURNSTILE_SECRET_KEY?: string;
-  RESEND_API_KEY?: string;
+  POSTMARK?: string;
   CONTACT_FROM_EMAIL?: string;
   CONTACT_TO_EMAIL?: string;
   CONTACT_RATE_LIMIT?: KVNamespace;
 }
 
-const ALLOWED_ORIGINS = new Set(["https://dansiegel.net", "https://www.dansiegel.net"]);
-const SUBJECTS = new Set(["Consulting", "Speaking", "Open source", "Other"]);
+const ALLOWED_ORIGINS = new Set([
+  "https://dansiegel.net",
+  "https://www.dansiegel.net",
+  "https://dansiegel-net.pages.dev",
+]);
+const TURNSTILE_HOSTNAMES = new Set([
+  "dansiegel.net",
+  "www.dansiegel.net",
+  "dansiegel-net.pages.dev",
+  "localhost",
+]);
+const SUBJECTS = new Set(["Consulting", "Roatán team retreat", "Speaking", "Open source", "Other"]);
 
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), {
   status,
@@ -25,8 +35,11 @@ async function verifyTurnstile(token: string, ip: string, secret: string): Promi
     body: new URLSearchParams({ secret, response: token, remoteip: ip }),
   });
   if (!response.ok) return false;
-  const result = await response.json() as { success?: boolean; hostname?: string };
-  return result.success === true && (!result.hostname || result.hostname === "dansiegel.net" || result.hostname === "localhost");
+  const result = await response.json() as { success?: boolean; hostname?: string; action?: string };
+  return result.success === true
+    && result.action === "contact"
+    && !!result.hostname
+    && TURNSTILE_HOSTNAMES.has(result.hostname);
 }
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
@@ -60,23 +73,32 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   if (production && (!env.TURNSTILE_SECRET_KEY || !token)) return json({ error: "Spam protection is not configured." }, 503);
   if (env.TURNSTILE_SECRET_KEY && !(await verifyTurnstile(token, ip, env.TURNSTILE_SECRET_KEY))) return json({ error: "The spam check failed. Please try again." }, 400);
-  if (!env.RESEND_API_KEY) return json({ error: "Email delivery is not configured yet." }, 503);
+  if (!env.POSTMARK || !env.CONTACT_TO_EMAIL || !env.CONTACT_FROM_EMAIL) {
+    return json({ error: "Email delivery is not configured yet." }, 503);
+  }
 
-  const to = env.CONTACT_TO_EMAIL ?? "dsiegel@avantipoint.com";
-  const from = env.CONTACT_FROM_EMAIL ?? "Dan Siegel Blog <website@dansiegel.net>";
-  const response = await fetch("https://api.resend.com/emails", {
+  const response = await fetch("https://api.postmarkapp.com/email", {
     method: "POST",
-    headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+      "x-postmark-server-token": env.POSTMARK,
+    },
     body: JSON.stringify({
-      from,
-      to: [to],
-      reply_to: email,
-      subject: `[dansiegel.net] ${subject}: ${name}`,
-      html: `<h2>New website message</h2><p><strong>Name:</strong> ${escapeHtml(name)}<br><strong>Email:</strong> ${escapeHtml(email)}<br><strong>Topic:</strong> ${escapeHtml(subject)}</p><p style="white-space:pre-wrap">${escapeHtml(message)}</p>`,
-      text: `Name: ${name}\nEmail: ${email}\nTopic: ${subject}\n\n${message}`,
+      From: env.CONTACT_FROM_EMAIL,
+      To: env.CONTACT_TO_EMAIL,
+      ReplyTo: email,
+      Subject: `[dansiegel.net] ${subject}: ${name}`,
+      HtmlBody: `<h2>New website message</h2><p><strong>Name:</strong> ${escapeHtml(name)}<br><strong>Email:</strong> ${escapeHtml(email)}<br><strong>Topic:</strong> ${escapeHtml(subject)}</p><p style="white-space:pre-wrap">${escapeHtml(message)}</p>`,
+      TextBody: `Name: ${name}\nEmail: ${email}\nTopic: ${subject}\n\n${message}`,
+      Tag: "website-contact",
+      MessageStream: "outbound",
     }),
   });
-  if (!response.ok) return json({ error: "The message could not be delivered. Please email dsiegel@avantipoint.com directly." }, 502);
+  if (!response.ok) {
+    console.error("Postmark rejected a contact message.", { status: response.status });
+    return json({ error: "The message could not be delivered. Please try again later." }, 502);
+  }
   return json({ ok: true });
 };
 

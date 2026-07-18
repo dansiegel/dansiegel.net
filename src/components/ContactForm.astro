@@ -1,5 +1,8 @@
 ---
 const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+if (import.meta.env.PROD && !siteKey) {
+  throw new Error("PUBLIC_TURNSTILE_SITE_KEY is required for production builds.");
+}
 ---
 
 <form class="contact-form" action="/api/contact" method="post" data-contact-form>
@@ -32,7 +35,7 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
     <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
   </div>
   <input type="hidden" name="startedAt" value={Date.now()} />
-  {siteKey ? <div class="cf-turnstile" data-sitekey={siteKey} data-theme="auto"></div> : <p class="form-notice">Spam protection is disabled in this local preview.</p>}
+  {siteKey ? <div class="cf-turnstile" data-sitekey={siteKey} data-action="contact" data-theme="auto"></div> : <p class="form-notice">Spam protection is unavailable in this development environment.</p>}
   <div class="form-submit">
     <button class="button primary" type="submit">Send message</button>
     <p class="form-status" data-form-status role="status" aria-live="polite"></p>
@@ -62,6 +65,7 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
     } catch (error) {
       status.textContent = error instanceof Error ? error.message : "Your message could not be sent.";
     } finally {
+      (window as Window & { turnstile?: { reset: () => void } }).turnstile?.reset();
       button.disabled = false;
       button.textContent = "Send message";
     }

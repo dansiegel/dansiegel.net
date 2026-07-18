@@ -6,7 +6,6 @@ export const site = {
   url: "https://dansiegel.net",
   locale: "en_US",
   language: "en-US",
-  email: "dsiegel@avantipoint.com",
   role: ".NET software architect, open-source maintainer, Microsoft MVP, and founder of AvantiPoint",
   location: "San Diego, California",
   company: {
