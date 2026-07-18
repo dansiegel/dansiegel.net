@@ -1,0 +1,73 @@
+---
+import { site } from "../config/site";
+import { person, website, type JsonLd } from "../lib/jsonld";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: "website" | "article";
+  publishedAt?: Date;
+  updatedAt?: Date;
+  categories?: string[];
+  noindex?: boolean;
+  jsonld?: JsonLd[];
+}
+
+const {
+  title = site.title,
+  description = site.description,
+  image = site.defaultOgImage,
+  imageAlt = "Dan Siegel, building better apps with .NET and open source",
+  type = "website",
+  publishedAt,
+  updatedAt,
+  categories = [],
+  noindex = false,
+  jsonld = [],
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, site.url);
+const imageUrl = new URL(image, site.url);
+const robots = noindex || import.meta.env.PUBLIC_SITE_ENV === "staging"
+  ? "noindex, nofollow, noarchive"
+  : "index, follow, max-image-preview:large";
+const nodes = [person(), website(), ...jsonld];
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="author" content={site.name} />
+<meta name="robots" content={robots} />
+<link rel="canonical" href={canonical.href} />
+<link rel="alternate" hreflang="en-US" href={canonical.href} />
+<link rel="alternate" hreflang="x-default" href={canonical.href} />
+<link rel="alternate" type="application/rss+xml" title={`${site.name} RSS`} href="/rss.xml" />
+<link rel="alternate" type="application/feed+json" title={`${site.name} JSON Feed`} href="/feed.json" />
+
+<meta property="og:site_name" content={site.name} />
+<meta property="og:locale" content={site.locale} />
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical.href} />
+<meta property="og:image" content={imageUrl.href} />
+<meta property="og:image:secure_url" content={imageUrl.href} />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={imageAlt} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:creator" content="@DanJSiegel" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl.href} />
+<meta name="twitter:image:alt" content={imageAlt} />
+
+{type === "article" && publishedAt && <meta property="article:published_time" content={publishedAt.toISOString()} />}
+{type === "article" && updatedAt && <meta property="article:modified_time" content={updatedAt.toISOString()} />}
+{categories.map((category) => <meta property="article:tag" content={category} />)}
+
+{nodes.map((node) => <script type="application/ld+json" set:html={JSON.stringify(node)} is:inline />)}

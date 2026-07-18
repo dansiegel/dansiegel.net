@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Privacy | Dan Siegel" description="How dansiegel.net handles contact messages, spam checks, request logs, and personal information while keeping data collection intentionally small.">
+  <header class="page-hero"><div class="narrow"><p class="eyebrow">Privacy</p><h1>A small-data website.</h1><p>This site collects only what it needs to publish articles and respond to messages.</p></div></header>
+  <section class="content-section narrow prose prose-lg">
+    <h2>Contact form</h2>
+    <p>When you send a message, the site processes your name, email address, selected topic, message, IP address, and spam-check result. This information is used only to deliver and respond to your message.</p>
+    <h2>Spam protection</h2>
+    <p>The contact form uses Cloudflare Turnstile. Cloudflare may process technical information needed to determine whether a submission is legitimate.</p>
+    <h2>Server logs</h2>
+    <p>Cloudflare may retain ordinary request logs for security, reliability, and abuse prevention. This site does not sell personal information.</p>
+    <h2>Your choices</h2>
+    <p>To ask about or request deletion of a contact message, email <a href="mailto:dsiegel@avantipoint.com">dsiegel@avantipoint.com</a>.</p>
+  </section>
+</BaseLayout>

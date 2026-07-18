@@ -1,0 +1,56 @@
+{
+  "profile": "dansiegel",
+  "packageCount": 73,
+  "totalDownloads": 130332720,
+  "updatedAt": "2026-07-17T12:51:55.835Z",
+  "featured": [
+    {
+      "id": "Prism.Core",
+      "downloads": 35098561
+    },
+    {
+      "id": "Prism.Plugin.Popups",
+      "downloads": 22830938
+    },
+    {
+      "id": "Prism.Forms",
+      "downloads": 19581174
+    },
+    {
+      "id": "Prism.Unity.Forms",
+      "downloads": 14329798
+    },
+    {
+      "id": "Prism.Plugin.Popups.Unity",
+      "downloads": 10696087
+    },
+    {
+      "id": "Prism.Wpf",
+      "downloads": 9709754
+    },
+    {
+      "id": "Prism.Unity",
+      "downloads": 5328845
+    },
+    {
+      "id": "Prism.DryIoc.Forms",
+      "downloads": 2281422
+    },
+    {
+      "id": "Prism.DryIoc",
+      "downloads": 1329779
+    },
+    {
+      "id": "Prism.Container.Abstractions",
+      "downloads": 1210043
+    },
+    {
+      "id": "Prism.Events",
+      "downloads": 1153816
+    },
+    {
+      "id": "Prism.Container.Extensions",
+      "downloads": 784715
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "name": "dansiegel-blog",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Dan Siegel's personal developer blog, built with Astro for Cloudflare.",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "prebuild": "npm run og:build",
+    "build": "astro build",
+    "postbuild": "node scripts/sitemap-lastmod.mjs && node scripts/seo-check.mjs",
+    "preview": "astro preview",
+    "check": "node scripts/astro-check.mjs",
+    "content:sync": "node scripts/migrate-blog.mjs",
+    "content:author": "node scripts/migrate-blog.mjs --author-only",
+    "nuget:sync": "node scripts/sync-nuget.mjs",
+    "og:build": "node scripts/build-og.mjs",
+    "quality": "npm run check && npm run build",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^6.0.3",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.3",
+    "@fontsource-variable/geist": "^5.2.8",
+    "@fontsource-variable/jetbrains-mono": "^5.2.8",
+    "@fontsource-variable/outfit": "^5.2.8",
+    "@fortawesome/free-brands-svg-icons": "^7.3.1",
+    "@tailwindcss/postcss": "^4.3.1",
+    "@tailwindcss/typography": "^0.5.20",
+    "astro": "^6.4.7",
+    "tailwindcss": "^4.3.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@cloudflare/workers-types": "^5.20260714.1",
+    "@resvg/resvg-js": "^2.6.2",
+    "@types/node": "^25.9.3",
+    "cheerio": "^1.2.0",
+    "satori": "^0.16.2",
+    "sharp": "^0.34.5",
+    "tsx": "^4.22.4",
+    "turndown": "^7.2.4",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.100.0"
+  }
+}

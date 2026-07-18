@@ -1,0 +1,61 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+import { article, breadcrumbs } from "../lib/jsonld";
+import { formatDate, ogPath, readingTime } from "../lib/posts";
+import { site } from "../config/site";
+
+interface Props { post: CollectionEntry<"posts">; }
+const { post } = Astro.props;
+const canonical = new URL(post.data.legacyUrl, site.url).href;
+const og = new URL(ogPath(post), site.url).href;
+const jsonld = [
+  article({
+    title: post.data.title,
+    description: post.data.description,
+    url: canonical,
+    image: og,
+    publishedAt: post.data.publishedAt,
+    updatedAt: post.data.updatedAt,
+    categories: post.data.categories,
+  }),
+  breadcrumbs([
+    { name: "Home", url: site.url },
+    { name: "Articles", url: `${site.url}/articles/` },
+    { name: post.data.title, url: canonical },
+  ]),
+];
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  image={ogPath(post)}
+  imageAlt={`Social card for ${post.data.title}`}
+  type="article"
+  publishedAt={post.data.publishedAt}
+  updatedAt={post.data.updatedAt}
+  categories={post.data.categories}
+  jsonld={jsonld}
+>
+  <article>
+    <header class="article-header narrow">
+      <div class="article-meta">
+        <time datetime={post.data.publishedAt.toISOString()}>{formatDate(post.data.publishedAt)}</time>
+        <span>{readingTime(post)} min read</span>
+      </div>
+      <h1>{post.data.title}</h1>
+      <p class="article-dek">{post.data.description}</p>
+      <div class="article-taxonomy">
+        {post.data.categories.map((category) => <a href={`/category/${encodeURIComponent(category)}/`}>{category}</a>)}
+      </div>
+    </header>
+    <div class="article-body narrow">
+      <div class="prose prose-lg"><slot /></div>
+      <div class="article-end">
+        <p>Written by <a href="/about/">Dan Siegel</a>, .NET MAUI and Uno Platform software architect, open-source maintainer, and Microsoft MVP.</p>
+        <a class="button secondary" href="/articles/">All articles</a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import NugetStats from "../components/NugetStats.astro";
+import nuget from "../data/nuget.json";
+import { site } from "../config/site";
+---
+
+<BaseLayout title="Open Source | Dan Siegel" description="Explore Dan Siegel's work across Prism, .NET MAUI, Uno Platform, NuGet packages, and cross-platform developer tooling.">
+  <header class="page-hero">
+    <div class="shell">
+      <p class="eyebrow">Open source</p>
+      <h1>Maintenance is product work.</h1>
+      <p>Libraries earn trust through careful APIs, useful documentation, and the unglamorous work of staying dependable.</p>
+    </div>
+  </header>
+  <section class="section shell"><NugetStats /></section>
+  <section class="content-section narrow">
+    <h2>Prism and the modern .NET ecosystem</h2>
+    <p>My open-source work centers on Prism, .NET MAUI, Uno Platform, application architecture, and tooling that removes repetitive work from cross-platform development.</p>
+    <p>During two years with the Uno Platform team, I was the original author of the Uno templates, Uno.Sdk and Uno Single Project, C# Markup for Uno Platform, and the .NET MAUI bindings for Uno Platform.</p>
+    <p>The NuGet profile currently connects me to {nuget.packageCount} packages with more than {new Intl.NumberFormat("en-US").format(nuget.totalDownloads)} total downloads. These numbers are fetched from NuGet.org and stored at build time so the page stays fast and resilient.</p>
+    <div class="hero-actions">
+      <a class="button primary" href={site.social.github}>GitHub profile</a>
+      <a class="button secondary" href={site.social.sponsors}>Sponsor my work</a>
+    </div>
+  </section>
+</BaseLayout>

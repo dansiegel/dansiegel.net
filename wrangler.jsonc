@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dansiegel-net",
+  "compatibility_date": "2026-07-01",
+  "pages_build_output_dir": "./dist",
+  "vars": {
+    "PUBLIC_SITE_ENV": "production",
+    "CONTACT_TO_EMAIL": "dsiegel@avantipoint.com",
+    "CONTACT_FROM_EMAIL": "Dan Siegel Blog <website@dansiegel.net>"
+  }
+}

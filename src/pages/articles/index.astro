@@ -1,0 +1,21 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+import { sortPosts } from "../../lib/posts";
+
+const posts = sortPosts(await getCollection("posts", ({ data }) => !data.draft));
+---
+
+<BaseLayout title="Articles | Dan Siegel" description="Articles by Dan Siegel about .NET MAUI, Uno Platform, Prism, DevOps, software architecture, and open source.">
+  <header class="page-hero">
+    <div class="shell">
+      <p class="eyebrow">Archive</p>
+      <h1>Ideas worth keeping.</h1>
+      <p>{posts.length} articles on software architecture, developer tooling, .NET, and open-source maintenance.</p>
+    </div>
+  </header>
+  <section class="shell article-index" aria-label="Article archive">
+    {posts.map((post) => <PostCard post={post} />)}
+  </section>
+</BaseLayout>

@@ -1,0 +1,35 @@
+---
+import { faGithub, faLinkedin, faXTwitter, faYoutube } from "@fortawesome/free-brands-svg-icons";
+import { site } from "../config/site";
+
+const socialLinks = [
+  { label: "GitHub", text: "GitHub", href: site.social.github, icon: faGithub },
+  { label: "X", text: "@DanJSiegel", href: site.social.x, icon: faXTwitter },
+  { label: "LinkedIn", text: "LinkedIn", href: site.social.linkedin, icon: faLinkedin },
+  { label: "YouTube", text: "YouTube", href: site.social.youtube, icon: faYoutube },
+];
+---
+
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <div>
+      <a class="wordmark" href="/"><span>dan</span><strong>siegel</strong><i aria-hidden="true">.</i></a>
+      <p>Thoughtful software, sustainable open source, and better developer experiences.</p>
+    </div>
+    <div class="footer-links" aria-label="Social links">
+      {socialLinks.map(({ label, text, href, icon }) => (
+        <a href={href} rel="me external" aria-label={`${label} profile`}>
+          <svg viewBox={`0 0 ${icon.icon[0]} ${icon.icon[1]}`} aria-hidden="true">
+            {(Array.isArray(icon.icon[4]) ? icon.icon[4] : [icon.icon[4]]).map((path) => <path d={path}></path>)}
+          </svg>
+          <span>{text}</span>
+        </a>
+      ))}
+      <a href="/rss.xml">RSS</a>
+    </div>
+    <div class="footer-meta">
+      <p>© {new Date().getFullYear()} Dan Siegel</p>
+      <a href="/privacy/">Privacy</a>
+    </div>
+  </div>
+</footer>

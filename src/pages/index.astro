@@ -1,0 +1,76 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostCard from "../components/PostCard.astro";
+import NugetStats from "../components/NugetStats.astro";
+import heroPortrait from "../assets/dan-siegel-hero-cutout.png";
+import { sortPosts } from "../lib/posts";
+import { site } from "../config/site";
+
+const posts = sortPosts(await getCollection("posts", ({ data }) => !data.draft));
+const latest = posts.slice(0, 5);
+---
+
+<BaseLayout>
+  <section class="portfolio-hero">
+    <div class="shell">
+      <div class="hero-stage">
+        <span class="hero-orbit hero-orbit-one" aria-hidden="true"></span>
+        <span class="hero-orbit hero-orbit-two" aria-hidden="true"></span>
+        <div class="hero-portrait">
+          <Image src={heroPortrait} alt="Dan Siegel, .NET MAUI and Uno Platform software architect" widths={[640, 960, 1280]} sizes="(max-width: 900px) 94vw, 48vw" loading="eager" />
+          <a class="hero-credential" href={site.mvp}>
+            <img src="/images/microsoft-mvp.png" width="752" height="303" alt="Microsoft Most Valuable Professional" />
+            <strong>10 years recognized</strong>
+          </a>
+        </div>
+        <div class="hero-intro">
+          <p class="hero-script"><span>Hello, I'm</span></p>
+          <p class="hero-kicker">.NET MAUI · Uno Platform · Architecture</p>
+          <h1>Dan Siegel.</h1>
+          <p class="hero-lede">I help teams build durable cross-platform .NET apps with .NET MAUI and Uno Platform, maintain Prism, and write about lessons from real projects.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="/articles/">Explore the blog</a>
+            <a class="button-link" href="/about/">More about me <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section shell selected-writing" aria-labelledby="latest-title">
+    <div class="section-header editorial-heading">
+      <p class="eyebrow">From the blog</p>
+      <h2 id="latest-title">Selected writing</h2>
+      <p>Field-tested thinking from maintaining frameworks, shipping apps, and helping development teams solve hard problems.</p>
+    </div>
+    <div class="post-grid">
+      {latest.map((post, index) => <PostCard post={post} featured={index === 0} />)}
+    </div>
+    <div class="section-action">
+      <a class="button secondary" href="/articles/">Browse all 35 articles</a>
+    </div>
+  </section>
+
+  <section class="section shell">
+    <NugetStats />
+  </section>
+
+  <section class="section shell home-about">
+    <div class="about-grid">
+      <div class="section-header">
+        <p class="eyebrow">A little context</p>
+        <h2>Code is the work. Community is the point.</h2>
+      </div>
+      <div class="content-section">
+        <p>I have been building for the web since the late 1990s and working across cloud, cross-platform .NET, and open-source ecosystems for decades.</p>
+        <p>Today I lead AvantiPoint, maintain Prism, and help teams solve hard architecture problems with .NET MAUI and Uno Platform. I am recognized as both a Microsoft MVP and Progress Champion.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="/about/">About me</a>
+          <a class="button secondary" href={site.mvp}>MVP profile</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

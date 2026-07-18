@@ -1,0 +1,120 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import conferencePhoto from "../assets/about/dan-conference.jpeg";
+import devReachPhoto from "../assets/about/dan-devreach.jpg";
+import freedivingPhoto from "../assets/about/dan-freediving.jpeg";
+import technicalDivingPhoto from "../assets/about/dan-technical-diving.webp";
+import seaHuntBeachPhoto from "../assets/about/sea-hunt-beach.webp";
+import { site } from "../config/site";
+---
+
+<BaseLayout title="About Dan Siegel | .NET MAUI & Uno Platform Architect" description="Meet Dan Siegel, a .NET MAUI and Uno Platform architect, Prism maintainer, Microsoft MVP, Progress Champion, and AvantiPoint founder.">
+  <header class="page-hero">
+    <div class="shell">
+      <p class="eyebrow">About</p>
+      <h1>A coder at heart.</h1>
+      <p>I build software, maintain open source, lead teams, and spend as much time as I can below the surface.</p>
+    </div>
+  </header>
+
+  <section class="content-section shell about-intro-grid">
+    <figure class="portrait about-portrait">
+      <img src={site.authorImage} width="800" height="1000" alt="Dan Siegel speaking at a technology event" loading="eager" />
+    </figure>
+    <div class="about-copy">
+      <h2>Building since the early web</h2>
+      <p>My interest in code goes back to the late 1990s, when I built my first website. What started as curiosity grew into a career spanning WordPress, infrastructure, enterprise systems, cloud architecture, and cross-platform .NET applications.</p>
+      <p>I founded <a href={site.company.url}>AvantiPoint</a> in 2015 to help teams rescue difficult projects, build greenfield applications, train developers, and support organizations using Prism. I still like the same part of the work most: turning a complicated problem into something understandable and dependable.</p>
+      <div class="milestone-list">
+        <div><strong>1990s</strong><span>Built my first website</span></div>
+        <div><strong>2015</strong><span>Founded AvantiPoint</span></div>
+        <div><strong>2017</strong><span>Received the Microsoft MVP Award</span></div>
+        <div><strong>Today</strong><span>Helping .NET MAUI and Uno Platform teams ship better software</span></div>
+      </div>
+      <div class="recognition-strip" aria-label="Industry recognition">
+        <a class="mvp-profile-link" href={site.mvp}>
+          <img src="/images/microsoft-mvp.png" width="752" height="303" alt="Microsoft Most Valuable Professional" />
+          <span>Official MVP profile <span aria-hidden="true">↗</span></span>
+        </a>
+        <div class="progress-recognition">
+          <img src="/images/progress-champion.png" width="271" height="312" alt="Progress Telerik Champion" />
+          <p>Recognized for technical expertise and contributions to the developer community. <a href={site.progressChampion}>Current Champions roster <span aria-hidden="true">↗</span></a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-story shell">
+    <div class="about-copy">
+      <p class="eyebrow">The work</p>
+      <h2>.NET MAUI, Uno Platform, and open source</h2>
+      <p>My current work focuses on architecture for .NET MAUI and Uno Platform: cross-platform applications that need to remain understandable, testable, and maintainable after the first release. Xamarin was an important earlier chapter in that work, but the platform has been retired and its lessons now carry forward into modern .NET.</p>
+      <p>I spent two years working with the Uno Platform team, where I helped shape the project experience from the first command through application architecture. I am the original author of:</p>
+      <div class="platform-contributions" aria-label="Original Uno Platform contributions">
+        <div><span>01</span><strong>The Uno templates</strong></div>
+        <div><span>02</span><strong>Uno.Sdk and Uno Single Project</strong></div>
+        <div><span>03</span><strong>C# Markup for Uno Platform</strong></div>
+        <div><span>04</span><strong>.NET MAUI bindings for Uno Platform</strong></div>
+      </div>
+      <p>Open source has taught me that writing the first version is the easy part. The real work is stewardship: listening to users, making careful API decisions, documenting tradeoffs, and maintaining trust long after the first release.</p>
+    </div>
+    <figure class="about-photo about-photo-wide">
+      <Image src={devReachPhoto} alt="Dan Siegel presenting on stage at DevReach 2019" widths={[720, 1080, 1440]} sizes="(max-width: 900px) 100vw, 52vw" />
+      <figcaption>Speaking at DevReach 2019.</figcaption>
+    </figure>
+  </section>
+
+  <section class="about-story about-story-reverse shell">
+    <div class="about-copy">
+      <p class="eyebrow">The community</p>
+      <h2>Software is built with people</h2>
+      <p>Conferences, user groups, maintainers, and the developers who show up with hard questions have shaped my career as much as any framework. The best technical conversations usually happen after the slides are over, when people can be honest about what worked and what did not.</p>
+      <p>Travel has been part of that story too. It has taken me from developer events to storm chasing and to Haiti, where I documented recovery work after the earthquake as a San Diego church helped permanently open a medical clinic.</p>
+    </div>
+    <figure class="about-photo">
+      <Image src={conferencePhoto} alt="Dan Siegel with David Ortinau and Gerald Versluis after a developer conference" widths={[640, 960, 1280]} sizes="(max-width: 900px) 100vw, 48vw" />
+      <figcaption>After a conference with David Ortinau and Gerald Versluis.</figcaption>
+    </figure>
+  </section>
+
+  <section class="about-diving">
+    <div class="shell about-diving-grid">
+      <div class="about-copy">
+        <p class="eyebrow">Below the surface</p>
+        <h2>Diving since 1996</h2>
+        <p>I earned my first certification at 13 and have spent nearly three decades exploring the water, from Cocos Island and Cozumel to the reefs and walls of Roatán. Over time that grew into technical and rebreather diving.</p>
+        <p>For eight years I also dove with the San Diego Sheriff’s Department, specializing in underwater search and recovery. Evidence searches and recovery missions in difficult environments made safety, precision, preparation, and calm decision-making non-negotiable. Those lessons follow me into every kind of leadership.</p>
+      </div>
+      <div class="about-dive-gallery">
+        <figure class="about-photo"><Image src={freedivingPhoto} alt="Dan Siegel freediving beneath a boat" widths={[640, 960, 1280]} sizes="(max-width: 700px) 100vw, 40vw" /><figcaption>Freediving off the coast.</figcaption></figure>
+        <figure class="about-photo"><Image src={technicalDivingPhoto} alt="Dan Siegel equipped for a technical dive in Roatán" widths={[480, 720]} sizes="(max-width: 700px) 70vw, 24vw" /><figcaption>Technical diving in Roatán.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-story shell">
+    <div class="about-copy">
+      <p class="eyebrow">Sea Hunt Divers</p>
+      <h2>A second kind of building</h2>
+      <p>I founded <a href="https://seahuntdivers.com/">Sea Hunt Divers</a> in West End, Roatán, because I wanted a dive operation built around small groups, genuine hospitality, and doing things the right way. The shop serves everyone from first-time divers to experienced technical and rebreather teams.</p>
+      <p>The name is a tribute to the classic television show <em>Sea Hunt</em>. The principle behind the operation is simple: no shortcuts. Treat every diver with respect, build real skills, and create the kind of experience I would want when arriving somewhere new.</p>
+      <div class="about-links">
+        <a class="button primary" href="https://seahuntdivers.com/our-story/">Read the Sea Hunt story</a>
+      </div>
+    </div>
+    <figure class="about-photo about-photo-wide">
+      <Image src={seaHuntBeachPhoto} alt="The Sea Hunt Divers beachfront in West End, Roatán at sunset" widths={[720, 1080, 1440]} sizes="(max-width: 900px) 100vw, 52vw" />
+      <figcaption>Sunset at Sea Hunt Divers in West End, Roatán.</figcaption>
+    </figure>
+  </section>
+
+  <section class="about-resilience">
+    <div class="narrow about-copy">
+      <p class="eyebrow">Perspective</p>
+      <h2>Hardship does not get the last word.</h2>
+      <p>As a teenager I suffered second- and third-degree burns to my leg and foot. A skin graft, permanent nerve damage, later surgeries, and chronic pain became part of my life. They are not the whole of it.</p>
+      <p>I believe adversity happens to all of us in different forms. We still get to decide what we build, who we help, and how we define ourselves. That conviction runs through my work, my diving, and every difficult problem I choose to take on.</p>
+    </div>
+  </section>
+</BaseLayout>

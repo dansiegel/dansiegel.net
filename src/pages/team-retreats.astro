@@ -1,0 +1,165 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import conferencePhoto from "../assets/about/dan-devreach.jpg";
+import freedivingPhoto from "../assets/about/dan-freediving.jpeg";
+import { site } from "../config/site";
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": `${site.url}/team-retreats/#service`,
+  name: "Roatán developer team retreats",
+  description: "Private developer team-building retreats in Roatán that combine shared island experiences with facilitated roadmap, architecture, and training sessions.",
+  url: `${site.url}/team-retreats/`,
+  serviceType: "Developer team building, technical planning, and training retreat",
+  areaServed: {
+    "@type": "Place",
+    name: "Roatán, Bay Islands, Honduras",
+  },
+  provider: { "@id": `${site.url}/#person` },
+  audience: {
+    "@type": "BusinessAudience",
+    audienceType: "Software development teams and engineering leaders",
+  },
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Does everyone need to be a certified diver?",
+      acceptedAnswer: { "@type": "Answer", text: "No. Activities are selected around the team and can include scuba diving, snorkeling, zip lining, mangrove tours, dolphin experiences, and other options that do not require dive certification." },
+    },
+    {
+      "@type": "Question",
+      name: "What team-building activities are available?",
+      acceptedAnswer: { "@type": "Answer", text: "A retreat can include scuba diving, snorkeling, zip lining, mangrove tours, dolphin experiences, and other shared activities chosen to fit the team." },
+    },
+    {
+      "@type": "Question",
+      name: "What can the technical program cover?",
+      acceptedAnswer: { "@type": "Answer", text: "Programs can focus on software architecture, .NET MAUI, Uno Platform, codebase strategy, project recovery, roadmap alignment, code reviews, or hands-on developer training." },
+    },
+    {
+      "@type": "Question",
+      name: "Who handles the travel and local logistics?",
+      acceptedAnswer: { "@type": "Answer", text: "The retreat is coordinated as one private program. Depending on scope, local arrangements can include airport transfers, accommodations, meals, workspace, boats, and dive logistics in Roatán." },
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="Developer Team Retreats in Roatán | Dan Siegel"
+  description="Build stronger team bonds in Roatán through shared experiences, then apply that momentum to roadmaps, technical planning, and developer training."
+  jsonld={[serviceSchema, faqSchema]}
+>
+  <header class="retreat-page-hero">
+    <div class="shell retreat-hero-grid">
+      <div class="retreat-hero-copy">
+        <p class="eyebrow">Developer team retreats · Roatán</p>
+        <h1>Build a stronger team. Then solve the hard stuff.</h1>
+        <p>A private developer retreat that uses shared experiences in Roatán to build trust and stronger team bonds—then brings that momentum into roadmaps, training, and the technical decisions your team needs to make together.</p>
+        <div class="hero-actions">
+          <a class="button primary retreat-primary-action" href="/contact/?topic=roatan-team-retreat">Plan a team retreat</a>
+          <a class="button-link retreat-hero-link" href="#format">See how it works <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+      <figure class="retreat-hero-photo">
+        <Image src={freedivingPhoto} alt="Dan Siegel freediving beneath a boat" widths={[720, 1080, 1440]} sizes="(max-width: 900px) 100vw, 44vw" loading="eager" />
+        <figcaption>Clear water changes the pace</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <section class="section shell retreat-positioning" id="format">
+    <div class="section-header">
+      <p class="eyebrow">The point of the retreat</p>
+      <h2>Roatán is the setting. A stronger team is the outcome.</h2>
+    </div>
+    <div class="retreat-positioning-copy">
+      <p class="retreat-lede">This is not a vacation with a workshop added to the itinerary. The shared experiences are part of the team-building work.</p>
+      <p>Doing something new together changes how people communicate. It creates shared stories, exposes different strengths, and builds trust outside the roles and routines that define a normal workday.</p>
+      <p>That stronger connection carries into facilitated sessions where the team can work through a difficult roadmap, align around architecture, learn new skills, or address the technical friction that is hard to solve inside the usual sprint cycle.</p>
+      <ul class="retreat-activity-list" aria-label="Possible team-building activities">
+        <li>Scuba diving</li>
+        <li>Snorkeling</li>
+        <li>Zip lining</li>
+        <li>Mangrove tours</li>
+        <li>Dolphin experiences</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="retreat-outcomes">
+    <div class="shell">
+      <div class="retreat-outcomes-heading">
+        <p class="eyebrow">Apply the momentum</p>
+        <h2>Turn stronger bonds into better work.</h2>
+      </div>
+      <div class="retreat-outcome-list">
+        <div><span>01</span><strong>Roadmap clarity</strong><p>Work through competing priorities, dependencies, and tradeoffs until the team shares a direction it can defend.</p></div>
+        <div><span>02</span><strong>Architecture decisions</strong><p>Give difficult platform and codebase decisions the focused attention—and candid team discussion—they require.</p></div>
+        <div><span>03</span><strong>Developer training</strong><p>Build capability together through practical sessions in .NET MAUI, Uno Platform, Prism, testing, or application design.</p></div>
+        <div><span>04</span><strong>Team alignment</strong><p>Clarify ownership, improve communication, and address the engineering friction that slows delivery.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section shell retreat-host-grid">
+    <figure class="retreat-host-photo">
+      <Image src={conferencePhoto} alt="Dan Siegel leading a technical session at DevReach" widths={[720, 1080, 1440]} sizes="(max-width: 900px) 100vw, 48vw" />
+      <figcaption>Technical leadership shaped by decades of building and maintaining software.</figcaption>
+    </figure>
+    <div class="retreat-host-copy">
+      <p class="eyebrow">One coordinated program</p>
+      <h2>Experiences and working sessions designed together.</h2>
+      <p>I design the retreat as one connected program. The shared experiences are chosen to help the team build trust and communicate differently; the facilitated sessions then put that stronger dynamic to work on the roadmap, training, or technical challenge that brought the team together.</p>
+      <p>The Roatán side is coordinated as part of the private retreat: airport transfers, accommodations, meals, reliable workspace, activities, and professionally guided time on the water. Your team gets one coherent experience instead of assembling a workshop and group itinerary separately.</p>
+      <p class="retreat-private-note">This is a private developer retreat planned through dansiegel.net, not a standard dive-shop group package.</p>
+    </div>
+  </section>
+
+  <section class="retreat-rhythm">
+    <div class="shell retreat-rhythm-grid">
+      <div>
+        <p class="eyebrow">How it comes together</p>
+        <h2>Experience together. Work through complexity together.</h2>
+      </div>
+      <div class="retreat-rhythm-list">
+        <div><strong>Build connection</strong><span>Scuba diving, snorkeling, zip lining, mangrove tours, dolphin experiences, or other shared challenges selected around the team.</span></div>
+        <div><strong>Bring that energy into the room</strong><span>Facilitated roadmap, architecture, alignment, or training sessions built around the team's real work.</span></div>
+        <div><strong>Leave stronger and aligned</strong><span>Shared memories reinforce the relationships; concrete decisions, skills, and next steps carry the value back to work.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section shell retreat-faq" aria-labelledby="retreat-faq-title">
+    <div class="section-header">
+      <p class="eyebrow">Practical questions</p>
+      <h2 id="retreat-faq-title">What teams need to know.</h2>
+    </div>
+    <div class="retreat-faq-list">
+      <div><h3>Does everyone need to dive?</h3><p>No. Activities are chosen around the team. A retreat can combine scuba diving and snorkeling with zip lining, mangrove tours, dolphin experiences, and other options that do not require dive certification.</p></div>
+      <div><h3>Is this a vacation or an offsite?</h3><p>It is a purposeful team-building retreat. Roatán provides the setting and shared experiences, but the goal is stronger team bonds and better collaboration on the roadmap, training, or technical work the team brings with it.</p></div>
+      <div><h3>Is this only for .NET teams?</h3><p>No. My deepest platform experience is in .NET MAUI, Uno Platform, Prism, Azure, and application architecture, but architecture reviews, team alignment, and project recovery apply more broadly.</p></div>
+      <div><h3>What is included?</h3><p>The team-building experiences, facilitated working sessions, and local plan are scoped together. Depending on the group, arrangements can include airport transfers, lodging, meals, workspace, activities, boats, and dive logistics.</p></div>
+    </div>
+  </section>
+
+  <section class="retreat-final-cta">
+    <div class="shell retreat-final-grid">
+      <div>
+        <p class="eyebrow">Start with the team</p>
+        <h2>Where does your team need stronger bonds—and what could you solve together?</h2>
+      </div>
+      <div>
+        <p>Tell me about the team, how you want them to work better together, and the roadmap, training, or technical challenge they need to move forward.</p>
+        <a class="button primary" href="/contact/?topic=roatan-team-retreat">Start the conversation</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

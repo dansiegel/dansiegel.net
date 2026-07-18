@@ -1,0 +1,45 @@
+---
+import "@fontsource-variable/jetbrains-mono/index.css";
+import "@fontsource-variable/outfit/index.css";
+import "../styles/global.css";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import SEO from "../components/SEO.astro";
+import type { JsonLd } from "../lib/jsonld";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: "website" | "article";
+  publishedAt?: Date;
+  updatedAt?: Date;
+  categories?: string[];
+  noindex?: boolean;
+  jsonld?: JsonLd[];
+}
+
+const props = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#dbe4eb" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/favicon-180.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <SEO {...props} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main" tabindex="-1"><slot /></main>
+    <Footer />
+  </body>
+</html>

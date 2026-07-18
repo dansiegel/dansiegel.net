@@ -1,0 +1,69 @@
+---
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+---
+
+<form class="contact-form" action="/api/contact" method="post" data-contact-form>
+  <div class="form-field">
+    <label for="name">Name</label>
+    <input id="name" name="name" type="text" autocomplete="name" required maxlength="100" />
+  </div>
+  <div class="form-field">
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" autocomplete="email" required maxlength="254" />
+  </div>
+  <div class="form-field">
+    <label for="subject">What would you like to discuss?</label>
+    <select id="subject" name="subject" required>
+      <option value="">Choose a topic</option>
+      <option>Consulting</option>
+      <option value="Roatán team retreat">Roatán developer team retreat</option>
+      <option>Speaking</option>
+      <option>Open source</option>
+      <option>Other</option>
+    </select>
+  </div>
+  <div class="form-field">
+    <label for="message">Message</label>
+    <textarea id="message" name="message" rows="7" required minlength="20" maxlength="5000"></textarea>
+    <p class="field-help">Please include enough context for a useful reply.</p>
+  </div>
+  <div class="honeypot" aria-hidden="true">
+    <label for="company_website">Company website</label>
+    <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+  <input type="hidden" name="startedAt" value={Date.now()} />
+  {siteKey ? <div class="cf-turnstile" data-sitekey={siteKey} data-theme="auto"></div> : <p class="form-notice">Spam protection is disabled in this local preview.</p>}
+  <div class="form-submit">
+    <button class="button primary" type="submit">Send message</button>
+    <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+  </div>
+</form>
+
+{siteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
+  const status = document.querySelector<HTMLElement>("[data-form-status]");
+  const topic = new URLSearchParams(window.location.search).get("topic");
+  const retreatOption = form?.querySelector('#subject option[value="Roatán team retreat"]');
+  if (topic === "roatan-team-retreat") retreatOption?.setAttribute("selected", "selected");
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (!button || !status) return;
+    button.disabled = true;
+    button.textContent = "Sending...";
+    status.textContent = "";
+    try {
+      const response = await fetch(form.action, { method: "POST", body: new FormData(form) });
+      const result = await response.json() as { ok?: boolean; error?: string };
+      if (!response.ok) throw new Error(result.error ?? "Your message could not be sent.");
+      form.reset();
+      status.textContent = "Thanks. Your message is on its way.";
+    } catch (error) {
+      status.textContent = error instanceof Error ? error.message : "Your message could not be sent.";
+    } finally {
+      button.disabled = false;
+      button.textContent = "Send message";
+    }
+  });
+</script>

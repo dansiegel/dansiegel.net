@@ -1,0 +1,25 @@
+---
+import nuget from "../data/nuget.json";
+import { site } from "../config/site";
+
+const format = (value: number) => new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(value);
+---
+
+<section class="nuget-section" aria-labelledby="nuget-title">
+  <div class="nuget-intro">
+    <p class="eyebrow">NuGet impact</p>
+    <h2 id="nuget-title">Packages developers depend on.</h2>
+    <p>Current public numbers from NuGet.org, refreshed by the repository sync task.</p>
+    <a class="text-link" href={site.nuget}>View NuGet profile <span aria-hidden="true">→</span></a>
+  </div>
+  <div class="nuget-metrics">
+    <div class="primary-metric">
+      <strong>{format(nuget.totalDownloads)}</strong>
+      <span>package downloads</span>
+    </div>
+    <div class="secondary-metric">
+      <strong>{nuget.packageCount}</strong>
+      <span>published packages</span>
+    </div>
+  </div>
+</section>

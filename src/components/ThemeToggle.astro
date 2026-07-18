@@ -1,0 +1,20 @@
+<button class="theme-toggle" type="button" data-theme-toggle aria-label="Change color theme">
+  <span aria-hidden="true">◐</span>
+  <span class="theme-toggle-label">Theme</span>
+</button>
+
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    const stored = localStorage.getItem("theme");
+    if (stored === "light" || stored === "dark") root.dataset.theme = stored;
+    document.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-theme-toggle]");
+      if (!button) return;
+      const current = root.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      const next = current === "dark" ? "light" : "dark";
+      root.dataset.theme = next;
+      localStorage.setItem("theme", next);
+    });
+  })();
+</script>

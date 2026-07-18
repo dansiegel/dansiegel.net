@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ContactForm from "../components/ContactForm.astro";
+import { site } from "../config/site";
+---
+
+<BaseLayout title="Contact Dan Siegel" description="Contact Dan Siegel about consulting, speaking, open-source work, or software architecture.">
+  <header class="page-hero">
+    <div class="shell">
+      <p class="eyebrow">Contact</p>
+      <h1>Start with context.</h1>
+      <p>Tell me what you are building, where it is stuck, and what a useful outcome would look like.</p>
+    </div>
+  </header>
+  <section class="shell contact-grid">
+    <aside class="contact-aside">
+      <h2>Good reasons to write</h2>
+      <p>Software architecture, project rescue, developer training, speaking, a <a href="/team-retreats/">Roatán developer retreat</a>, or a thoughtful open-source question.</p>
+      <p>You can also email <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+    </aside>
+    <ContactForm />
+  </section>
+</BaseLayout>

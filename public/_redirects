@@ -1,0 +1,8 @@
+/page/about-me /about/ 301
+/page/privacy /privacy/ 301
+/page/recent-projects /about/ 301
+/page/resume /about/ 301
+/archive /articles/ 301
+/syndication.axd /rss.xml 301
+/post.aspx /articles/ 301
+/author/dansiegel /about/ 301
