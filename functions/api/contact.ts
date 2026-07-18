@@ -71,11 +71,11 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     await env.CONTACT_RATE_LIMIT.put(key, String(attempts + 1), { expirationTtl: 3600 });
   }
 
-  if (production && !env.TURNSTILE_SECRET_KEY) return json({ error: "Spam protection is not configured." }, 503);
+  if (production && !env.TURNSTILE_SECRET_KEY) return json({ error: "The contact form is temporarily unavailable. Please try again later." }, 503);
   if (production && !token) return json({ error: "Please complete the spam check." }, 400);
   if (env.TURNSTILE_SECRET_KEY && !(await verifyTurnstile(token, ip, env.TURNSTILE_SECRET_KEY))) return json({ error: "The spam check failed. Please try again." }, 400);
   if (!env.POSTMARK || !env.CONTACT_TO_EMAIL || !env.CONTACT_FROM_EMAIL) {
-    return json({ error: "Email delivery is not configured yet." }, 503);
+    return json({ error: "Message delivery is temporarily unavailable. Please try again later." }, 503);
   }
 
   const response = await fetch("https://api.postmarkapp.com/email", {
