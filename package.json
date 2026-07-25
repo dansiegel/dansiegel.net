@@ -41,10 +41,10 @@
     "@types/node": "^25.9.3",
     "cheerio": "^1.2.0",
     "satori": "^0.16.2",
-    "sharp": "^0.34.5",
+    "sharp": "^0.35.3",
     "tsx": "^4.22.4",
     "turndown": "^7.2.4",
     "typescript": "^6.0.3",
-    "wrangler": "^4.100.0"
+    "wrangler": "^4.114.0"
   }
 }
