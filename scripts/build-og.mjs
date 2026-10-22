@@ -26,7 +26,8 @@ function field(source, key) {
 }
 
 function element(type, props, children) {
-  return { type, props: { ...props, ...(children !== undefined ? { children } : {}) } };
+  // Preserve the border-box layout used by the previous Satori renderer.
+  return { type, props: { ...props, style: { boxSizing: "border-box", ...props.style }, ...(children !== undefined ? { children } : {}) } };
 }
 
 function card({ title, description, categories = [], date, background, portrait = false }) {
@@ -37,7 +38,6 @@ function card({ title, description, categories = [], date, background, portrait 
     element("img", { src: background, width: 1200, height: 630, style: portrait
       ? { position: "absolute", right: "-10px", bottom: "-170px", width: "540px", height: "810px", objectFit: "contain" }
       : { position: "absolute", inset: 0, width: "1200px", height: "630px", objectFit: "cover" } }),
-    element("div", { style: { position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(219,228,235,.99) 0%, rgba(219,228,235,.96) 58%, rgba(219,228,235,.18) 100%)" } }),
     element("div", { style: { position: "absolute", right: "-55px", top: "-80px", width: "230px", height: "260px", borderRadius: "12px", background: "#2f6f9f", opacity: .82, transform: "rotate(10deg)" } }),
     element("div", { style: { position: "relative", display: "flex", width: portrait ? "760px" : "930px", height: "100%", flexDirection: "column", justifyContent: "space-between", padding: "62px 70px 58px" } }, [
       element("div", { style: { display: "flex", alignItems: "center", gap: "12px", fontSize: "24px", fontWeight: 650, letterSpacing: "-0.02em" } }, [
