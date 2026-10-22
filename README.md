@@ -4,7 +4,9 @@ A content-first personal site built with Astro, Tailwind CSS, and Cloudflare Pag
 
 ## Local development
 
-Requirements: Node.js 24 or newer and npm.
+Requirements: Node.js 24 or newer and npm. Node type definitions track the Node.js 24 runtime used in CI. TypeScript stays on 6.x until `@astrojs/check` supports TypeScript 7.
+
+Scoped npm overrides update typography's pinned selector parser to patched 7.x ([GHSA-rj75-hqrm-r3gf](https://github.com/advisories/GHSA-rj75-hqrm-r3gf)) and Satori's pinned compression dependency to patched 0.7.x ([GHSA-px8p-9vwx-vf98](https://github.com/advisories/GHSA-px8p-9vwx-vf98)). Remove these overrides when the upstream packages adopt fixed versions.
 
 ```sh
 npm install
